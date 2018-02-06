@@ -12,6 +12,8 @@ Requires the following R packages:
 
 [cluster](https://cran.r-project.org/web/packages/cluster/index.html)
 
+[RColorBrewer](https://cran.r-project.org/web/packages/RColorBrewer/index.html)
+
 # Usage
 Basic usage is:
 ```bash
