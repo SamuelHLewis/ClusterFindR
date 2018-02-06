@@ -15,13 +15,15 @@ Requires the following R packages:
 # Usage
 Basic usage is:
 ```bash
-
+ClusterFindR.R --input="TestDistributions.csv" --variable="Bimodal" --clusters=2
 ```
-ClusterFindR takes 2 mandatory arguments:
+ClusterFindR takes 3 mandatory arguments:
 
 	--input (input data table in csv format - must have column headers)
 
-	--clusterBy (variable to use to cluster data - must uniquely match a column header in the input)
+	--variable (variable to use to cluster data - must uniquely match a column header in the input)
+
+	--clusters (maximum number of clusters - ClusterFindR tries to fit each value of k from 1 to this number)
 
 # ModalDistributor
 ## Purpose
