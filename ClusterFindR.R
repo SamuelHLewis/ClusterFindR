@@ -4,10 +4,10 @@
 
 suppressPackageStartupMessages(library("argparse"))
 suppressPackageStartupMessages(library("tidyverse"))
-suppressPackageStartupMessages(library("RColorBrewer"))
 suppressPackageStartupMessages(library("cluster"))
-
-## TEST ADDITION ##
+suppressPackageStartupMessages(library("gridExtra"))
+suppressPackageStartupMessages(library("grid"))
+suppressPackageStartupMessages(library("lattice"))
 
 #########################
 # user argument parsing #
@@ -27,6 +27,11 @@ userInput <- args$input
 userVariable <- args$variable
 clusterMax <- args$clusters
 
+# hard-coded user options (for testing)
+#userInput <- "TestDistributions.csv"
+#userVariable <- "Trimodal"
+#clusterMax <- 9
+
 # read in data
 dat <- read_csv(userInput, na = ".")
 # find column number in input data that corresponds to the user variable (because this has to be used to call the data from this column later on, rather than using the column name)
@@ -38,8 +43,10 @@ for (i in seq(1:length(names(dat)))){
 # filter out rows with missing data
 forClustering <- filter(dat, is.na(userVariable) == FALSE)
 # plot histogram of data
-histogramPlot <- ggplot(forClustering, mapping = aes_string(x = userVariable)) + geom_histogram() + theme_bw()
-ggsave("Histogram.svg", plot = histogramPlot, device = "svg",  width = 7, height = 5.5, units = "in")
+histogramPlot <- ggplot(forClustering, mapping = aes_string(x = userVariable)) +
+  geom_histogram() +
+  ylab("Count") +
+  theme_bw()
 
 ################
 ## CLUSTERING ##
@@ -62,8 +69,6 @@ fitPlot <- ggplot(clusterStats, mapping = aes(x = ClusterSize, y = TotalWithinSS
   ylab("Within-cluster total sum of squares") +
   scale_x_continuous(breaks=k[2:length(k)], labels=k[2:length(k)]) + 
   theme(panel.grid.minor.x = element_blank())
-#fitPlot
-ggsave("Fit.svg", plot = fitPlot, device = "svg",  width = 7, height = 5.5, units = "in")
 
 ########################
 ## CLUSTER EVALUATION ##
@@ -88,8 +93,6 @@ meanSilhouettePlot <- ggplot(clusterStats, mapping = aes(x = ClusterSize, y = Si
   ylab("Mean silhouette coefficient") +
   scale_x_continuous(breaks=newk, labels=newk) + 
   theme(panel.grid.minor.x = element_blank())
-#meanSilhouettePlot
-ggsave("MeanSilhouette.svg", plot = meanSilhouettePlot, device = "svg",  width = 7, height = 5.5, units = "in")
 
 ###############################################
 ## CLUSTER DATA USING OPTIMUM CLUSTER NUMBER ##
@@ -99,11 +102,38 @@ clusterStatsOrdered <- clusterStats %>% filter(k > 1) %>% arrange(desc(Silhouett
 # extract the value of k corresponding to the highest silhouette coefficient
 optimumK <- as.integer(clusterStatsOrdered[1,1])
 # assign the cluster assignments for each element based on the optimum cluster number
-forClustering$Cluster <- as.vector(newRes[[optimumK]]$cluster)
-# plot silhouette for optimum k
+forClustering$Cluster <- as.vector(newRes[[optimumK-1]]$cluster)
+# extract silhouette for optimum k
 optimumSilhouette <- silhouette(newRes[[optimumK-1]]$cluster, distances)
-kColours <- brewer.pal(length(newk), "Set1")
-svg(filename = "OptimumSilhouette.svg", width = 7, height = 5.5)
-plot(optimumSilhouette, border=NA, col=kColours[sort(newRes[[optimumK-1]]$cluster)], main="")
-dev.off()
+# create new tibble for optimumSilhouette
+optimumSilhouetteTibble <- tibble(optimumSilhouette[,1], optimumSilhouette[,2], optimumSilhouette[,3])
+names(optimumSilhouetteTibble) <- c("Cluster", "Neighbour", "SilhouetteWidth")
+# order each cluster by silhouette width in descending order & add a column of position of each point in ordered table to plot by
+optimumSilhouetteTibblePlottable <- optimumSilhouetteTibble %>% group_by(Cluster) %>% arrange(SilhouetteWidth) %>% mutate(PlottingIndex = row_number(Cluster))
+# plot silhouette profile
+optimumSilhouettePlot <- ggplot(optimumSilhouetteTibblePlottable, mapping = aes(x = PlottingIndex, y = SilhouetteWidth)) +
+  geom_bar(stat = "identity", aes(fill = as.factor(Cluster))) +
+  theme_bw() +
+  facet_wrap(~Cluster, ncol = 1, strip.position = "left") +
+  coord_flip() +
+  xlab("Cluster") +
+  ylab("Silhouette width") +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    strip.background = element_blank(),
+    panel.border = element_blank(),
+    legend.position = "none",
+    strip.text.y = element_text(angle = 180),
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank()
+  )
 
+############
+## OUTPUT ##
+############
+# output data with cluster assignments (NB: any row with NA in column used for clustering will be removed)
+write.csv(forClustering, file = "Clustered.csv")
+# build and write summary plot
+summaryPlot <- grid.arrange(histogramPlot, fitPlot, meanSilhouettePlot, optimumSilhouettePlot, ncol = 2)
+ggsave("summaryPlot.svg", plot = summaryPlot, device = "svg",  width = 8.3, height = 11.7, units = "in")
