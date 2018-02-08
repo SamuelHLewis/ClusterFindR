@@ -45,6 +45,8 @@ forClustering <- filter(dat, is.na(userVariable) == FALSE)
 # plot histogram of data
 histogramPlot <- ggplot(forClustering, mapping = aes_string(x = userVariable)) +
   geom_histogram() +
+  ggtitle(paste("Distribution of ",userVariable)) +
+  xlab("") +
   ylab("Count") +
   theme_bw()
 
@@ -65,6 +67,7 @@ fitPlot <- ggplot(clusterStats, mapping = aes(x = ClusterSize, y = TotalWithinSS
   geom_point(size = 3) +
   geom_line(size = 1) +
   theme_bw() +
+  ggtitle("Fit of each number of clusters") +
   xlab("Number of clusters (k)") + 
   ylab("Within-cluster total sum of squares") +
   scale_x_continuous(breaks=k[2:length(k)], labels=k[2:length(k)]) + 
@@ -89,6 +92,7 @@ clusterStats$Silhouette <- c(NA, meanSilhouette)
 meanSilhouettePlot <- ggplot(clusterStats, mapping = aes(x = ClusterSize, y = Silhouette)) +
   geom_bar(stat = "identity") +
   theme_bw() +
+  ggtitle("Quality of each number of clusters") +
   xlab("Number of clusters (k)") + 
   ylab("Mean silhouette coefficient") +
   scale_x_continuous(breaks=newk, labels=newk) + 
@@ -116,6 +120,7 @@ optimumSilhouettePlot <- ggplot(optimumSilhouetteTibblePlottable, mapping = aes(
   theme_bw() +
   facet_wrap(~Cluster, ncol = 1, strip.position = "left") +
   coord_flip() +
+  ggtitle("Silhouette profile of optimum k") +
   xlab("Cluster") +
   ylab("Silhouette width") +
   theme(
