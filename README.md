@@ -45,5 +45,5 @@ ModalDistributor.R --sampleSize=1000 --mean=1 --standardDeviation=1 --modes=1 --
 This will print a column of 1000 numbers to the file "Distributions.txt".
 
 # Output
-![example output](https://raw.githubusercontent.com/SamuelHLewis/ClusterFindR/master/ExampleOutput.svg)
+![](https://raw.githubusercontent.com/SamuelHLewis/ClusterFindR/master/ExampleOutput.jpg)
 
