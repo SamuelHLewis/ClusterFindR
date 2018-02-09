@@ -21,18 +21,18 @@ Requires the following R packages:
 ## Usage
 Basic usage is:
 ```bash
-ClusterFindR.R --input="TestDistributions.csv" --variable="Bimodal" --clusters=2
+ClusterFindR.R --input="TestDistributions.tsv" --variable="Bimodal" --clusters=9
 ```
 ClusterFindR takes 3 mandatory arguments:
 
-	--input (input data table in csv format - must have column headers)
+	--input (input data table in tsv format - must have column headers)
 
 	--variable (variable to use to cluster data - must uniquely match a column header in the input)
 
 	--clusters (maximum number of clusters - ClusterFindR tries to fit each value of k from 1 to this number)
 
 ## Output
-ClusterFindR writes a `Clustered.csv` file to the working directory. This is the same as the input file, but with an additional "Cluster" column added denoting which cluster each observation belongs to according to the optimum cluster number. ClusterFindR also outputs a summary figure `summaryPlot.svg`. This visualizes the distribution of the variable used for clustering, the fit and quality of of each value of k, and the silhouette profile for the optimum k. 
+ClusterFindR writes a `Clustered.tsv` file to the working directory. This is the same as the input file, but with an additional "Cluster" column added denoting which cluster each observation belongs to according to the optimum cluster number. ClusterFindR also outputs a summary figure `summaryPlot.svg`. This visualizes the distribution of the variable used for clustering, the fit and quality of of each value of k, and the silhouette profile for the optimum k. 
 ![](https://raw.githubusercontent.com/SamuelHLewis/ClusterFindR/master/ExampleOutput.jpg)
 
 ## References
