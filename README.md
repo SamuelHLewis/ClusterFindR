@@ -32,16 +32,16 @@ ClusterFindR takes 3 mandatory arguments:
 	--clusters (maximum number of clusters - ClusterFindR tries to fit each value of k from 1 to this number)
 
 ## Output
-ClusterFindR writes a `Clustered.tsv` file to the working directory. This is the same as the input file, but with an additional "Cluster" column added denoting which cluster each observation belongs to according to the optimum cluster number. ClusterFindR also outputs a summary figure `summaryPlot.svg`. This visualizes the distribution of the variable used for clustering, the fit and quality of of each value of k, and the silhouette profile for the optimum k. 
+ClusterFindR writes a `Clustered.tsv` file to the working directory. This is the same as the input file, but with an additional "Cluster" column added denoting which cluster each observation belongs to according to the optimum cluster number. ClusterFindR also outputs a summary figure `summaryPlot.pdf`. This visualizes the distribution of the variable used for clustering, the fit and quality of of each value of k, and the silhouette profile for the optimum k. 
 ![](https://raw.githubusercontent.com/SamuelHLewis/ClusterFindR/master/ExampleOutput.jpg)
 
 ## References
 This code is adapted from the University of Cambridge [Introduction to Machine Learning course](https://github.com/bioinformatics-training/intro-machine-learning-2017/blob/master/09-clustering.Rmd)
 
 
-# ModalDistributor
-## Purpose
-Generates a sample from a distribution with a given number of modes. Designed to produce test data for ClusterFindR.
+# Generating test data
+## ModalDistributor.R
+To generate test data for ClusterFindR, the script `ModalDistributor.R` can be used. This generates a sample from a distribution with a user-defined number of modes.
 ## Requirements
 Written in R.
 
