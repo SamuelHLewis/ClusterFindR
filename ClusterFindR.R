@@ -41,7 +41,7 @@ for (i in seq(1:length(names(dat)))){
   }
 }
 # filter out rows with missing data
-forClustering <- filter(dat, is.na(userVariable) == FALSE)
+forClustering <- filter(dat, is.na(dat[userColumn]) == FALSE)
 # plot histogram of data
 histogramPlot <- ggplot(forClustering, mapping = aes_string(x = userVariable)) +
   geom_histogram() +
@@ -141,4 +141,4 @@ optimumSilhouettePlot <- ggplot(optimumSilhouetteTibblePlottable, mapping = aes(
 write.table(forClustering, file = "Clustered.tsv", row.names = FALSE)
 # build and write summary plot
 summaryPlot <- grid.arrange(histogramPlot, fitPlot, meanSilhouettePlot, optimumSilhouettePlot, ncol = 2)
-ggsave("summaryPlot.svg", plot = summaryPlot, device = "svg",  width = 8.3, height = 11.7, units = "in")
+ggsave("summaryPlot.pdf", plot = summaryPlot, device = "pdf",  width = 8.3, height = 11.7, units = "in")
