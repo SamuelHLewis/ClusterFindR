@@ -28,9 +28,9 @@ userVariable <- args$variable
 clusterMax <- args$clusters
 
 ## hard-coded user options (for testing)
-userInput <- "TestDistributions.tsv"
-userVariable <- "Trimodal"
-clusterMax <- 9
+#userInput <- "TestDistributions.tsv"
+#userVariable <- "Trimodal"
+#clusterMax <- 9
 
 # read in data
 dat <- read_tsv(userInput, na = ".")
@@ -70,7 +70,7 @@ fitPlot <- ggplot(clusterStats, mapping = aes(x = ClusterSize, y = TotalWithinSS
   ggtitle("Fit of each number of clusters") +
   xlab("Number of clusters (k)") + 
   ylab("Within-cluster total sum of squares") +
-  scale_x_continuous(breaks=k[2:length(k)], labels=k[2:length(k)]) + 
+  scale_x_continuous(breaks=k, labels=k) + 
   theme(panel.grid.minor.x = element_blank())
 
 ########################
