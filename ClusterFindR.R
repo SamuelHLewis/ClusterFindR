@@ -28,9 +28,9 @@ userVariable <- args$variable
 clusterMax <- args$clusters
 
 ## hard-coded user options (for testing)
-#userInput <- "TestDistributions.tsv"
-#userVariable <- "Trimodal"
-#clusterMax <- 9
+userInput <- "TestDistributions.tsv"
+userVariable <- "Trimodal"
+clusterMax <- 9
 
 # read in data
 dat <- read_tsv(userInput, na = ".")
@@ -118,11 +118,12 @@ optimumSilhouetteTibblePlottable <- optimumSilhouetteTibble %>% group_by(Cluster
 optimumSilhouettePlot <- ggplot(optimumSilhouetteTibblePlottable, mapping = aes(x = PlottingIndex, y = SilhouetteWidth)) +
   geom_bar(stat = "identity", aes(fill = as.factor(Cluster))) +
   theme_bw() +
-  facet_wrap(~Cluster, ncol = 1, strip.position = "left") +
+  facet_wrap(~Cluster, ncol = 1, strip.position = "left", scale = "free_y") +
   coord_flip() +
   ggtitle("Silhouette profile of optimum k") +
   xlab("Cluster") +
   ylab("Silhouette width") +
+  scale_y_continuous(limits = c(0,1)) +
   theme(
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
