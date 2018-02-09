@@ -33,7 +33,7 @@ ClusterFindR takes 3 mandatory arguments:
 
 ## Output
 ClusterFindR writes a `Clustered.tsv` file to the working directory. This is the same as the input file, but with an additional "Cluster" column added denoting which cluster each observation belongs to according to the optimum cluster number. ClusterFindR also outputs a summary figure `summaryPlot.pdf`. This visualizes the distribution of the variable used for clustering, the fit and quality of of each value of k, and the silhouette profile for the optimum k. 
-![](https://raw.githubusercontent.com/SamuelHLewis/ClusterFindR/master/ExampleOutput.pdf)
+![](https://raw.githubusercontent.com/SamuelHLewis/ClusterFindR/master/ExampleOutput.jpg)
 
 ## References
 This code is adapted from the University of Cambridge [Introduction to Machine Learning course](https://github.com/bioinformatics-training/intro-machine-learning-2017/blob/master/09-clustering.Rmd)
