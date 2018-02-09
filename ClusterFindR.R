@@ -139,7 +139,7 @@ optimumSilhouettePlot <- ggplot(optimumSilhouetteTibblePlottable, mapping = aes(
 ## OUTPUT ##
 ############
 # output data with cluster assignments (NB: any row with NA in column used for clustering will be removed)
-write.table(forClustering, file = "Clustered.tsv", row.names = FALSE)
+write.table(forClustering, file = "Clustered.tsv", row.names = FALSE, quote = FALSE, sep = "\t")
 # build and write summary plot
 summaryPlot <- grid.arrange(histogramPlot, fitPlot, meanSilhouettePlot, optimumSilhouettePlot, ncol = 2)
 ggsave("summaryPlot.pdf", plot = summaryPlot, device = "pdf",  width = 8.3, height = 11.7, units = "in")
