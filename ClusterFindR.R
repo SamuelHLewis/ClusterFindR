@@ -15,7 +15,7 @@ suppressPackageStartupMessages(library("lattice"))
 # create parser object
 parser <- ArgumentParser()
 # parse input table
-parser$add_argument("-i", "--input", type = "character", help = "Input data table (must have a header, and missing data must be marked with \".\")")
+parser$add_argument("-i", "--input", type = "character", help = "Input data table (must be in tab-separated text format with a header, and missing data must be marked with \".\")")
 # parse explanatory variable
 parser$add_argument("-v", "--variable", type = "character", help = "Variable to use for clustering (must be a unique exact match to a header in the input data)")
 # parse number of clusters
@@ -27,13 +27,13 @@ userInput <- args$input
 userVariable <- args$variable
 clusterMax <- args$clusters
 
-# hard-coded user options (for testing)
-#userInput <- "TestDistributions.csv"
+## hard-coded user options (for testing)
+#userInput <- "TestDistributions.tsv"
 #userVariable <- "Trimodal"
 #clusterMax <- 9
 
 # read in data
-dat <- read_csv(userInput, na = ".")
+dat <- read_tsv(userInput, na = ".")
 # find column number in input data that corresponds to the user variable (because this has to be used to call the data from this column later on, rather than using the column name)
 for (i in seq(1:length(names(dat)))){
   if (names(dat)[i] == userVariable){
