@@ -21,7 +21,7 @@ Requires the following R packages:
 ## Usage
 Basic usage is:
 ```bash
-ClusterFindR.R --input="TestDistributions.tsv" --variable="Bimodal" --clusters=9
+ClusterFindR.R --input="TestDistributions.tsv" --variable="Trimodal" --clusters=9
 ```
 ClusterFindR takes 3 mandatory arguments:
 
